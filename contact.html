@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - The Digital Book Shop</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --text: #333;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --error: #e74c3c;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 2rem;
+            color: var(--secondary);
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        nav ul li a:hover {
+            color: var(--secondary);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--secondary);
+            transition: width 0.3s;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 0.5rem 1.2rem;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: white;
+            border: 1px solid white;
+        }
+
+        .btn-outline:hover {
+            background-color: white;
+            color: var(--primary);
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1568667256549-094345857637?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .breadcrumb {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+        }
+
+        .breadcrumb li {
+            margin: 0 0.5rem;
+        }
+
+        .breadcrumb li a {
+            color: var(--light);
+            text-decoration: none;
+        }
+
+        .breadcrumb li:not(:last-child)::after {
+            content: '>';
+            margin-left: 1rem;
+            color: var(--light);
+        }
+
+        .breadcrumb li:last-child {
+            color: var(--secondary);
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: 5rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: var(--primary);
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--secondary);
+        }
+
+        .section-title p {
+            max-width: 700px;
+            margin: 1rem auto 0;
+            color: #666;
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        /* Contact Info */
+        .contact-info {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            height: fit-content;
+        }
+
+        .contact-info h3 {
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .info-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .info-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--secondary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .info-content h4 {
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .info-content p {
+            color: #666;
+            margin-bottom: 0.2rem;
+        }
+
+        .info-content a {
+            color: var(--secondary);
+            text-decoration: none;
+        }
+
+        .info-content a:hover {
+            text-decoration: underline;
+        }
+
+        .business-hours {
+            margin-top: 2rem;
+        }
+
+        .business-hours h4 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .hours-table tr {
+            border-bottom: 1px solid #eee;
+        }
+
+        .hours-table tr:last-child {
+            border-bottom: none;
+        }
+
+        .hours-table td {
+            padding: 0.5rem 0;
+        }
+
+        .hours-table td:last-child {
+            text-align: right;
+            font-weight: 500;
+        }
+
+        /* Contact Form */
+        .contact-form-container {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .contact-form-container h3 {
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+
+        .contact-form {
+            width: 100%;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--primary);
+        }
+
+        .form-group label.required::after {
+            content: ' *';
+            color: var(--error);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--secondary);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .error-message {
+            color: var(--error);
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-submit:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-submit:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+
+        /* Map Section */
+        .map-section {
+            margin-top: 4rem;
+        }
+
+        .map-container {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            height: 400px;
+            position: relative;
+        }
+
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+
+        .location-controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+            display: flex;
+            gap: 10px;
+        }
+
+        .location-btn {
+            background: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 12px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .location-btn:hover {
+            background: #f0f0f0;
+        }
+
+        .branch-selector {
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .branch-btn {
+            padding: 8px 16px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .branch-btn.active {
+            background: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+
+        .branch-btn:hover:not(.active) {
+            background: #f0f0f0;
+        }
+
+        /* Success Message */
+        .success-message {
+            background-color: var(--success);
+            color: white;
+            padding: 1rem;
+            border-radius: 4px;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+
+        /* Location Status */
+        .location-status {
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .location-status.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .location-status.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 4rem 0 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--secondary);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-column ul li a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--secondary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: background-color 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--secondary);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .map-container {
+                height: 350px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-wrap: wrap;
+            }
+            
+            nav {
+                width: 100%;
+                order: 3;
+                margin-top: 1rem;
+                display: none;
+            }
+            
+            nav.active {
+                display: block;
+            }
+            
+            nav ul {
+                flex-direction: column;
+            }
+            
+            nav ul li {
+                margin: 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            nav ul li a {
+                display: block;
+                padding: 0.8rem 0;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+            
+            .auth-buttons {
+                margin-left: auto;
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .branch-selector {
+                flex-wrap: wrap;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .logo h1 {
+                font-size: 1.5rem;
+            }
+            
+            .info-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .info-icon {
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-book-open"></i>
+                    <h1>Book<span>Nook</span></h1>
+                </div>
+                
+                <div class="mobile-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+                
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="contact.html" class="active">Contact</a></li>
+                        <li><a href="order.html">Order</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="auth-buttons">
+                    <a href="login.html" class="btn btn-outline">Login</a>
+                    <a href="register.html" class="btn btn-primary">Register</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Contact Us</h1>
+            <ul class="breadcrumb">
+                <li><a href="index.html">Home</a></li>
+                <li>Contact Us</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Get In Touch</h2>
+                <p>We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+            </div>
+            
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Contact Information</h3>
+                    
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="info-content">
+                            <h4>Main Library</h4>
+                            <p>sindh Street, Karachi City</p>
+                            <a href="#" class="get-directions" data-branch="main">Get Directions</a>
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="info-content">
+                            <h4>Phone Number</h4>
+                            <p>(123) 456-7890</p>
+                            <p>Mon-Sat: 9AM-6PM</p>
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="info-content">
+                            <h4>Email Address</h4>
+                            <p>info@booknook.com</p>
+                            <p>support@booknook.com</p>
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="info-content">
+                            <h4>Business Hours</h4>
+                            <p>Monday - Friday: 9:00 AM - 8:00 PM</p>
+                            <p>Saturday: 10:00 AM - 6:00 PM</p>
+                            <p>Sunday: 12:00 PM - 5:00 PM</p>
+                        </div>
+                    </div>
+                    
+                    <div class="business-hours">
+                        <h4>Holiday Hours</h4>
+                        <table class="hours-table">
+                            <tr>
+                                <td>New Year's Day</td>
+                                <td>Closed</td>
+                            </tr>
+                            <tr>
+                                <td>Christmas Day</td>
+                                <td>Closed</td>
+                            </tr>
+                            <tr>
+                                <td>Thanksgiving</td>
+                                <td>Closed</td>
+                            </tr>
+                            <tr>
+                                <td>Independence Day</td>
+                                <td>12PM - 5PM</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="contact-form-container">
+                    <h3>Send Us a Message</h3>
+                    
+                    <div class="success-message" id="successMessage">
+                        <i class="fas fa-check-circle"></i> Thank you for your message! We'll get back to you soon.
+                    </div>
+                    
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName" class="required">First Name</label>
+                                <input type="text" id="firstName" class="form-control" placeholder="Enter your first name" required>
+                                <div class="error-message" id="firstNameError">Please enter your first name</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="lastName" class="required">Last Name</label>
+                                <input type="text" id="lastName" class="form-control" placeholder="Enter your last name" required>
+                                <div class="error-message" id="lastNameError">Please enter your last name</div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email" class="required">Email Address</label>
+                            <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+                            <div class="error-message" id="emailError">Please enter a valid email address</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" class="form-control" placeholder="Enter your phone number">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject" class="required">Subject</label>
+                            <select id="subject" class="form-control" required>
+                                <option value="">Select a subject</option>
+                                <option value="general">General Inquiry</option>
+                                <option value="membership">Membership Question</option>
+                                <option value="technical">Technical Support</option>
+                                <option value="suggestion">Suggestion</option>
+                                <option value="complaint">Complaint</option>
+                                <option value="other">Other</option>
+                            </select>
+                            <div class="error-message" id="subjectError">Please select a subject</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message" class="required">Message</label>
+                            <textarea id="message" class="form-control" placeholder="Enter your message" required></textarea>
+                            <div class="error-message" id="messageError">Please enter your message</div>
+                        </div>
+                        
+                        <button type="submit" class="btn-submit" id="submitBtn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Map Section -->
+            <div class="map-section">
+                <div class="section-title">
+                    <h2>Find Our Locations</h2>
+                    <p>Visit one of our library branches. We have multiple locations to serve you better.</p>
+                </div>
+                
+                <div class="branch-selector">
+                    <span>Select Branch:</span>
+                    <button class="branch-btn active" data-branch="main">Main Library</button>
+                    <button class="branch-btn" data-branch="north">North Branch</button>
+                    <button class="branch-btn" data-branch="south">South Branch</button>
+                    <button class="branch-btn" data-branch="east">East Branch</button>
+                </div>
+                
+                <div class="location-status" id="locationStatus"></div>
+                
+                <div class="map-container">
+                    <div id="map"></div>
+                    <div class="location-controls">
+                        <button class="location-btn" id="locateMe">
+                            <i class="fas fa-location-arrow"></i>
+                            <span>Locate Me</span>
+                        </button>
+                        <button class="location-btn" id="getDirections">
+                            <i class="fas fa-route"></i>
+                            <span>Directions</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>BookNook</h3>
+                    <p>Your literary haven since 2010. We're dedicated to bringing the joy of reading to book lovers everywhere.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-goodreads"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="dashboard.html">Dashboard/a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="service.html">Services</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="order.html">Order Books</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Customer Service</h3>
+                    <ul>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Shipping Policy</a></li>
+                        <li><a href="#">Returns & Refunds</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> sindh Street, karachi City</li>
+                        <li><i class="fas fa-phone"></i> (123) 456-7890</li>
+                        <li><i class="fas fa-envelope"></i> info@booknook.com</li>
+                        <li><i class="fas fa-clock"></i> Mon-Sat: 9AM-6PM</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 Muhammad Talal Kaimkhani. All rights reserved to Him.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Google Maps API -->
+    <script>
+        // Library branch locations
+        const branches = {
+            main: {
+                name: "Main Library",
+                address: "123 Book Street, Literary City, LC 12345",
+                lat: 40.7128,
+                lng: -74.0060,
+                phone: "(123) 456-7890",
+                hours: "Mon-Sat: 9AM-8PM, Sun: 12PM-5PM"
+            },
+            north: {
+                name: "North Branch",
+                address: "456 Reading Avenue, North District, LC 12346",
+                lat: 40.7828,
+                lng: -74.0060,
+                phone: "(123) 456-7891",
+                hours: "Mon-Fri: 10AM-7PM, Sat: 10AM-5PM"
+            },
+            south: {
+                name: "South Branch",
+                address: "789 Novel Road, South Quarter, LC 12347",
+                lat: 40.6428,
+                lng: -74.0060,
+                phone: "(123) 456-7892",
+                hours: "Mon-Fri: 9AM-6PM, Sat: 10AM-4PM"
+            },
+            east: {
+                name: "East Branch",
+                address: "321 Chapter Lane, East End, LC 12348",
+                lat: 40.7128,
+                lng: -73.9560,
+                phone: "(123) 456-7893",
+                hours: "Mon-Fri: 10AM-8PM, Sat-Sun: 11AM-5PM"
+            }
+        };
+
+        // Global variables
+        let map;
+        let userMarker;
+        let directionsService;
+        let directionsRenderer;
+        let currentBranch = 'main';
+        let userLocation = null;
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize map
+            initMap();
+            
+            // Mobile menu toggle
+            document.querySelector('.mobile-menu').addEventListener('click', function() {
+                document.querySelector('nav').classList.toggle('active');
+            });
+            
+            // Form submission
+            document.getElementById('contactForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                submitContactForm();
+            });
+            
+            // Branch selection
+            document.querySelectorAll('.branch-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Update active button
+                    document.querySelectorAll('.branch-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Update map
+                    currentBranch = this.getAttribute('data-branch');
+                    updateMapForBranch(currentBranch);
+                });
+            });
+            
+            // Get directions links
+            document.querySelectorAll('.get-directions').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const branch = this.getAttribute('data-branch');
+                    // Activate the corresponding branch button
+                    document.querySelectorAll('.branch-btn').forEach(b => {
+                        b.classList.remove('active');
+                        if (b.getAttribute('data-branch') === branch) {
+                            b.classList.add('active');
+                            currentBranch = branch;
+                            updateMapForBranch(branch);
+                        }
+                    });
+                    // Show directions
+                    showDirections();
+                });
+            });
+            
+            // Locate me button
+            document.getElementById('locateMe').addEventListener('click', locateUser);
+            
+            // Get directions button
+            document.getElementById('getDirections').addEventListener('click', showDirections);
+            
+            // Form validation on input
+            const formFields = document.querySelectorAll('#contactForm input, #contactForm select, #contactForm textarea');
+            formFields.forEach(field => {
+                field.addEventListener('blur', function() {
+                    validateField(this);
+                });
+                
+                field.addEventListener('input', function() {
+                    clearError(this);
+                });
+            });
+        });
+
+        // Initialize Google Map
+        function initMap() {
+            // Create a new map centered on the main branch
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 13,
+                center: { lat: branches.main.lat, lng: branches.main.lng },
+                styles: [
+                    {
+                        "featureType": "poi",
+                        "elementType": "labels.text",
+                        "stylers": [{ "visibility": "on" }]
+                    }
+                ]
+            });
+            
+            // Initialize directions service
+            directionsService = new google.maps.DirectionsService();
+            directionsRenderer = new google.maps.DirectionsRenderer();
+            directionsRenderer.setMap(map);
+            
+            // Add markers for all branches
+            for (const branch in branches) {
+                addBranchMarker(branches[branch]);
+            }
+        }
+
+        // Add a marker for a library branch
+        function addBranchMarker(branch) {
+            const marker = new google.maps.Marker({
+                position: { lat: branch.lat, lng: branch.lng },
+                map: map,
+                title: branch.name,
+                icon: {
+                    url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+                        <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="${branch.name === 'Main Library' ? '#e74c3c' : '#3498db'}" d="M16 0C10.477 0 6 4.477 6 10c0 6.5 10 16 10 16s10-9.5 10-16c0-5.523-4.477-10-10-10zm0 15a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"/>
+                        </svg>
+                    `),
+                    scaledSize: new google.maps.Size(32, 32),
+                    anchor: new google.maps.Point(16, 32)
+                }
+            });
+            
+            const infoWindow = new google.maps.InfoWindow({
+                content: `
+                    <div style="padding: 10px; max-width: 200px;">
+                        <h3 style="margin: 0 0 5px; color: #2c3e50;">${branch.name}</h3>
+                        <p style="margin: 0 0 5px; font-size: 14px;">${branch.address}</p>
+                        <p style="margin: 0 0 5px; font-size: 14px;">${branch.phone}</p>
+                        <p style="margin: 0; font-size: 12px; color: #666;">${branch.hours}</p>
+                    </div>
+                `
+            });
+            
+            marker.addListener('click', () => {
+                infoWindow.open(map, marker);
+            });
+        }
+
+        // Update map for selected branch
+        function updateMapForBranch(branchKey) {
+            const branch = branches[branchKey];
+            map.setCenter({ lat: branch.lat, lng: branch.lng });
+            map.setZoom(15);
+            
+            // Clear any existing directions
+            directionsRenderer.setDirections({ routes: [] });
+        }
+
+        // Locate the user
+        function locateUser() {
+            const statusElement = document.getElementById('locationStatus');
+            
+            if (!navigator.geolocation) {
+                statusElement.textContent = "Geolocation is not supported by this browser.";
+                statusElement.className = "location-status error";
+                statusElement.style.display = 'block';
+                return;
+            }
+            
+            statusElement.textContent = "Locating...";
+            statusElement.className = "location-status";
+            statusElement.style.display = 'block';
+            
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    const userLat = position.coords.latitude;
+                    const userLng = position.coords.longitude;
+                    
+                    userLocation = { lat: userLat, lng: userLng };
+                    
+                    // Add or update user marker
+                    if (userMarker) {
+                        userMarker.setPosition(userLocation);
+                    } else {
+                        userMarker = new google.maps.Marker({
+                            position: userLocation,
+                            map: map,
+                            title: "Your Location",
+                            icon: {
+                                url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+                                    <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="12" cy="12" r="10" fill="#2ecc71" stroke="#fff" stroke-width="2"/>
+                                    </svg>
+                                `),
+                                scaledSize: new google.maps.Size(24, 24),
+                                anchor: new google.maps.Point(12, 12)
+                            }
+                        });
+                    }
+                    
+                    // Center map on user location
+                    map.setCenter(userLocation);
+                    map.setZoom(14);
+                    
+                    statusElement.textContent = "Location found!";
+                    statusElement.className = "location-status success";
+                    
+                    // Hide status after 3 seconds
+                    setTimeout(() => {
+                        statusElement.style.display = 'none';
+                    }, 3000);
+                },
+                function(error) {
+                    let errorMessage = "Unable to retrieve your location.";
+                    
+                    switch(error.code) {
+                        case error.PERMISSION_DENIED:
+                            errorMessage = "Location access denied. Please enable location services.";
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            errorMessage = "Location information unavailable.";
+                            break;
+                        case error.TIMEOUT:
+                            errorMessage = "Location request timed out.";
+                            break;
+                    }
+                    
+                    statusElement.textContent = errorMessage;
+                    statusElement.className = "location-status error";
+                }
+            );
+        }
+
+        // Show directions to selected branch
+        function showDirections() {
+            if (!userLocation) {
+                alert("Please use the 'Locate Me' button first to set your current location.");
+                return;
+            }
+            
+            const selectedBranch = branches[currentBranch];
+            
+            const request = {
+                origin: userLocation,
+                destination: { lat: selectedBranch.lat, lng: selectedBranch.lng },
+                travelMode: google.maps.TravelMode.DRIVING
+            };
+            
+            directionsService.route(request, function(result, status) {
+                if (status === 'OK') {
+                    directionsRenderer.setDirections(result);
+                    
+                    // Show distance and duration
+                    const route = result.routes[0];
+                    const leg = route.legs[0];
+                    
+                    const statusElement = document.getElementById('locationStatus');
+                    statusElement.innerHTML = `
+                        <strong>Directions to ${selectedBranch.name}</strong><br>
+                        Distance: ${leg.distance.text} | Duration: ${leg.duration.text}
+                    `;
+                    statusElement.className = "location-status success";
+                    statusElement.style.display = 'block';
+                } else {
+                    alert('Could not calculate directions. Please try again.');
+                }
+            });
+        }
+
+        // Submit contact form
+        function submitContactForm() {
+            if (!validateForm()) {
+                return;
+            }
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const successMessage = document.getElementById('successMessage');
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+            
+            // Simulate form submission
+            setTimeout(() => {
+                successMessage.style.display = 'block';
+                document.getElementById('contactForm').reset();
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+                
+                // Scroll to success message
+                successMessage.scrollIntoView({ behavior: 'smooth' });
+                
+                // Hide success message after 5 seconds
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 5000);
+            }, 1500);
+        }
+
+        // Validate entire form
+        function validateForm() {
+            let isValid = true;
+            const requiredFields = document.querySelectorAll('#contactForm input[required], #contactForm select[required], #contactForm textarea[required]');
+            
+            requiredFields.forEach(field => {
+                if (!validateField(field)) {
+                    isValid = false;
+                }
+            });
+            
+            return isValid;
+        }
+
+        // Validate individual field
+        function validateField(field) {
+            const value = field.value.trim();
+            const fieldId = field.id;
+            
+            switch(fieldId) {
+                case 'firstName':
+                case 'lastName':
+                    if (value === '') {
+                        showError(field, `${fieldId}Error`);
+                        return false;
+                    }
+                    break;
+                    
+                case 'email':
+                    if (value === '' || !isValidEmail(value)) {
+                        showError(field, 'emailError');
+                        return false;
+                    }
+                    break;
+                    
+                case 'subject':
+                    if (value === '') {
+                        showError(field, 'subjectError');
+                        return false;
+                    }
+                    break;
+                    
+                case 'message':
+                    if (value === '') {
+                        showError(field, 'messageError');
+                        return false;
+                    }
+                    break;
+            }
+            
+            return true;
+        }
+
+        // Helper functions
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function showError(field, errorElementId) {
+            field.style.borderColor =  (--error);
+            document.getElementById(errorElementId).style.display = 'block';
+        }
+
+        function clearError(field) {
+            field.style.borderColor = '#ddd';
+            const fieldId = field.id;
+            document.getElementById(`${fieldId}Error`).style.display = 'none';
+        }
+    </script>
+
+    <!-- Load Google Maps API -->
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5ZcJ8DdQJ8V8V8V8V8V8V8V8V8V8V8V8&callback=initMap">
+    </script>
+</body>
+</html>

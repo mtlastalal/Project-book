@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - The digital Book Shop</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --text: #333;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --error: #e74c3c;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: var(--text);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 2rem;
+            color: var(--secondary);
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        nav ul li a:hover {
+            color: var(--secondary);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--secondary);
+            transition: width 0.3s;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 0.5rem 1.2rem;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: white;
+            border: 1px solid white;
+        }
+
+        .btn-outline:hover {
+            background-color: white;
+            color: var(--primary);
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Registration Section */
+        .registration-section {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 0;
+            background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .registration-container {
+            display: flex;
+            max-width: 1100px;
+            width: 100%;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .registration-image {
+            flex: 1;
+            background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.8)), url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .registration-image h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .registration-image p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .benefits-list {
+            list-style: none;
+        }
+
+        .benefits-list li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .benefits-list li i {
+            margin-right: 10px;
+            color: var(--secondary);
+            font-size: 1.2rem;
+        }
+
+        .registration-form-container {
+            flex: 1.2;
+            padding: 3rem;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .form-header h2 {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-header p {
+            color: #666;
+        }
+
+        .registration-form {
+            width: 100%;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--primary);
+        }
+
+        .form-group label.required::after {
+            content: ' *';
+            color: var(--error);
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-with-icon i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--secondary);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+
+        .form-control.error {
+            border-color: var(--error);
+        }
+
+        .form-control.success {
+            border-color: var(--success);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .error-message {
+            color: var(--error);
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .terms-agreement {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .terms-agreement input {
+            margin-right: 8px;
+            margin-top: 3px;
+        }
+
+        .terms-agreement label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .terms-agreement a {
+            color: var(--secondary);
+            text-decoration: none;
+        }
+
+        .terms-agreement a:hover {
+            text-decoration: underline;
+        }
+
+        .btn-register {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-register:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-register:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background-color: #ecf0f1;
+            border-radius: 3px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: var(--secondary);
+            width: 0%;
+            transition: width 0.5s;
+        }
+
+        .progress-text {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .login-link a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        .success-message {
+            background-color: var(--success);
+            color: white;
+            padding: 1rem;
+            border-radius: 4px;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+
+        /* API Status Styles */
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .api-status {
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            display: none;
+            font-weight: 500;
+        }
+
+        .api-status.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .api-status.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .api-status.info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .connection-test {
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 2rem 0 1rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--secondary);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-column ul li a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--secondary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: background-color 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--secondary);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .registration-container {
+                flex-direction: column;
+                max-width: 600px;
+            }
+
+            .registration-image {
+                padding: 2rem;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-wrap: wrap;
+            }
+
+            nav {
+                width: 100%;
+                order: 3;
+                margin-top: 1rem;
+                display: none;
+            }
+
+            nav.active {
+                display: block;
+            }
+
+            nav ul {
+                flex-direction: column;
+            }
+
+            nav ul li {
+                margin: 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            nav ul li a {
+                display: block;
+                padding: 0.8rem 0;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .auth-buttons {
+                margin-left: auto;
+            }
+
+            .registration-form-container {
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .logo h1 {
+                font-size: 1.5rem;
+            }
+
+            .registration-image h2 {
+                font-size: 1.8rem;
+            }
+
+            .form-header h2 {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-book-open"></i>
+                    <h1>Book<span>Shop</span></h1>
+                </div>
+
+                <div class="mobile-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="dashboard.html"></a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="service.html">Services</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="order.html">Order</a></li>
+                    </ul>
+                </nav>
+
+                <div class="auth-buttons">
+                    <a href="login.html" class="btn btn-outline">Login</a>
+                    <a href="register.html" class="btn btn-primary">Register</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Registration Section -->
+    <section class="registration-section">
+        <div class="registration-container">
+            <div class="registration-image">
+                <h2>Join BookNook Library</h2>
+                <p>Create an account to access our extensive collection of books, join book clubs, and enjoy exclusive
+                    member benefits.</p>
+                <ul class="benefits-list">
+                    <li><i class="fas fa-check-circle"></i> Access to 50,000+ books</li>
+                    <li><i class="fas fa-check-circle"></i> Join exclusive book clubs</li>
+                    <li><i class="fas fa-check-circle"></i> Personal reading recommendations</li>
+                    <li><i class="fas fa-check-circle"></i> Reserve popular titles</li>
+                    <li><i class="fas fa-check-circle"></i> Digital resources and e-books</li>
+                    <li><i class="fas fa-check-circle"></i> Member-only events and discounts</li>
+                </ul>
+            </div>
+
+            <div class="registration-form-container">
+                <div class="form-header">
+                    <h2>Create Account</h2>
+                    <p>Fill in your details to get started</p>
+                </div>
+
+                <!-- API Connection Status -->
+                <div class="api-status" id="apiStatus"></div>
+
+                <!-- Connection Test Button -->
+                <div class="connection-test">
+                    <button type="button" id="testConnection" class="btn btn-outline"
+                        style="color: var(--primary); border-color: var(--primary);">
+                        <i class="fas fa-plug"></i> Test Server Connection
+                    </button>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress" id="formProgress"></div>
+                </div>
+                <div class="progress-text" id="progressText">Form completion: 0%</div>
+
+                <div class="success-message" id="successMessage">
+                    <i class="fas fa-check-circle"></i> Registration successful! Redirecting...
+                </div>
+
+                <form class="registration-form" id="registrationForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName" class="required">First Name</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="firstName" class="form-control"
+                                    placeholder="Enter your first name" required>
+                            </div>
+                            <div class="error-message" id="firstNameError">Please enter your first name</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lastName" class="required">Last Name</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="lastName" class="form-control" placeholder="Enter your last name"
+                                    required>
+                            </div>
+                            <div class="error-message" id="lastNameError">Please enter your last name</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="required">Email Address</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+                        </div>
+                        <div class="error-message" id="emailError">Please enter a valid email address</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-phone"></i>
+                            <input type="tel" id="phone" class="form-control" placeholder="Enter your phone number">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-home"></i>
+                            <input type="text" id="address" class="form-control"
+                                placeholder="Enter your street address">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="city">City</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-city"></i>
+                                <input type="text" id="city" class="form-control" placeholder="Enter your city">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="zipCode">ZIP Code</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-map-pin"></i>
+                                <input type="text" id="zipCode" class="form-control" placeholder="ZIP code">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password" class="required">Password</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="password" class="form-control" placeholder="Create a password"
+                                required>
+                        </div>
+                        <div class="error-message" id="passwordError">Password must be at least 8 characters with
+                            uppercase, lowercase, and number</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword" class="required">Confirm Password</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="confirmPassword" class="form-control"
+                                placeholder="Confirm your password" required>
+                        </div>
+                        <div class="error-message" id="confirmPasswordError">Passwords do not match</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="membershipType">Membership Type</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-id-card"></i>
+                            <select id="membershipType" class="form-control">
+                                <option value="basic">Basic (Free)</option>
+                                <option value="standard">Standard ($15/month)</option>
+                                <option value="premium">Premium ($25/month)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="interests">Reading Interests (Select up to 3)</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-bookmark"></i>
+                            <select id="interests" class="form-control" multiple size="4">
+                                <option value="fiction">Fiction</option>
+                                <option value="mystery">Mystery & Thriller</option>
+                                <option value="scifi">Science Fiction</option>
+                                <option value="fantasy">Fantasy</option>
+                                <option value="romance">Romance</option>
+                                <option value="biography">Biography</option>
+                                <option value="history">History</option>
+                                <option value="science">Science</option>
+                                <option value="business">Business</option>
+                                <option value="selfhelp">Self-Help</option>
+                            </select>
+                        </div>
+                        <small>Hold Ctrl (or Cmd on Mac) to select multiple options</small>
+                    </div>
+
+                    <div class="form-options">
+                        <div class="terms-agreement">
+                            <input type="checkbox" id="terms" required>
+                            <label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy
+                                    Policy</a></label>
+                        </div>
+                    </div>
+                    <div class="error-message" id="termsError">You must agree to the terms and conditions</div>
+
+                    <div class="form-options">
+                        <div class="terms-agreement">
+                            <input type="checkbox" id="newsletter">
+                            <label for="newsletter">Send me updates about new books and events</label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-register" id="registerButton">Create Account</button>
+
+                    <div class="login-link">
+                        <p>Already have an account? <a href="login.html">Sign in here</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>The Digital Book Shop</h3>
+                    <p>Your literary haven since 2010. We're dedicated to bringing the joy of reading to book lovers
+                        everywhere.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-goodreads"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="service.html">Services</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="order.html">Order Books</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Customer Service</h3>
+                    <ul>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Shipping Policy</a></li>
+                        <li><a href="#">Returns & Refunds</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Book Street, Literary City</li>
+                        <li><i class="fas fa-phone"></i> (123) 456-7890</li>
+                        <li><i class="fas fa-envelope"></i> info@booknook.com</li>
+                        <li><i class="fas fa-clock"></i> Mon-Sat: 9AM-6PM</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2025 Muhammad Talal Kaimkhani. All rights reserved to Him.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Configuration
+        const API_BASE_URL = 'http://localhost:3000/api';
+
+        // DOM Elements
+        const apiStatus = document.getElementById('apiStatus');
+        const testConnectionBtn = document.getElementById('testConnection');
+        const registrationForm = document.getElementById('registrationForm');
+        const registerButton = document.getElementById('registerButton');
+
+        // Test server connection
+        async function testServerConnection() {
+            showApiStatus('Testing connection to server...', 'info');
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/health`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    showApiStatus('✅ Server connection successful!', 'success');
+                    return true;
+                } else {
+                    throw new Error(`Server responded with status: ${response.status}`);
+                }
+            } catch (error) {
+                showApiStatus(`❌ Connection failed: ${error.message}. Make sure the server is running on port 3000.`, 'error');
+                return false;
+            }
+        }
+
+        // Show API status message
+        function showApiStatus(message, type = 'info') {
+            apiStatus.textContent = message;
+            apiStatus.className = `api-status ${type}`;
+            apiStatus.style.display = 'block';
+
+            if (type === 'success') {
+                setTimeout(() => {
+                    apiStatus.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        // Enhanced form submission with backend connection
+        async function submitForm() {
+            if (!validateForm()) {
+                showApiStatus('Please fix the form errors before submitting.', 'error');
+                return;
+            }
+
+            // Test connection first
+            const isConnected = await testServerConnection();
+            if (!isConnected) {
+                showApiStatus('Cannot connect to server. Please try again later or use offline registration.', 'error');
+                // Uncomment the line below to enable offline fallback
+                // fallbackRegistration(collectFormData());
+                return;
+            }
+
+            // Collect form data
+            const formData = collectFormData();
+
+            // Show loading state
+            setFormLoading(true);
+            showApiStatus('Creating your account...', 'info');
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showApiStatus('✅ Account created successfully! Redirecting...', 'success');
+
+                    // Store user data in localStorage
+                    localStorage.setItem('userRegistered', 'true');
+                    localStorage.setItem('userEmail', formData.email);
+
+                    // Redirect to login page
+                    setTimeout(() => {
+                        window.location.href = 'login.html?message=registration_success';
+                    }, 2000);
+
+                } else {
+                    throw new Error(data.error || `Registration failed: ${response.status}`);
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                showApiStatus(`Registration failed: ${error.message}`, 'error');
+                setFormLoading(false);
+            }
+        }
+
+        // Collect form data
+        function collectFormData() {
+            return {
+                firstName: document.getElementById('firstName').value.trim(),
+                lastName: document.getElementById('lastName').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                password: document.getElementById('password').value,
+                phone: document.getElementById('phone').value.trim(),
+                address: document.getElementById('address').value.trim(),
+                city: document.getElementById('city').value.trim(),
+                zipCode: document.getElementById('zipCode').value.trim(),
+                membershipType: document.getElementById('membershipType').value,
+                interests: getSelectedInterests(),
+                newsletter: document.getElementById('newsletter').checked
+            };
+        }
+
+        // Set form loading state
+        function setFormLoading(isLoading) {
+            if (isLoading) {
+                registrationForm.classList.add('loading');
+                registerButton.disabled = true;
+                registerButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
+            } else {
+                registrationForm.classList.remove('loading');
+                registerButton.disabled = false;
+                registerButton.textContent = 'Create Account';
+            }
+        }
+
+        // Enhanced validation function
+        function validateForm() {
+            let isValid = true;
+
+            // Clear previous errors
+            clearAllErrors();
+
+            // Validate required fields
+            const requiredFields = [
+                'firstName', 'lastName', 'email', 'password', 'confirmPassword'
+            ];
+
+            requiredFields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (!field.value.trim()) {
+                    showError(field, `${fieldId}Error`);
+                    isValid = false;
+                }
+            });
+
+            // Validate email format
+            const email = document.getElementById('email').value;
+            if (email && !isValidEmail(email)) {
+                showError(document.getElementById('email'), 'emailError');
+                isValid = false;
+            }
+
+            // Validate password strength
+            const password = document.getElementById('password').value;
+            if (password && !isStrongPassword(password)) {
+                showError(document.getElementById('password'), 'passwordError');
+                isValid = false;
+            }
+
+            // Validate password match
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            if (password !== confirmPassword) {
+                showError(document.getElementById('confirmPassword'), 'confirmPasswordError');
+                isValid = false;
+            }
+
+            // Validate terms acceptance
+            if (!document.getElementById('terms').checked) {
+                showError(document.getElementById('terms'), 'termsError');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        // Helper function to get selected interests
+        function getSelectedInterests() {
+            const select = document.getElementById('interests');
+            const selected = [];
+            for (let i = 0; i < select.options.length; i++) {
+                if (select.options[i].selected) {
+                    selected.push(select.options[i].value);
+                }
+            }
+            return selected;
+        }
+
+        // Clear all error messages
+        function clearAllErrors() {
+            const errorMessages = document.querySelectorAll('.error-message');
+            errorMessages.forEach(error => {
+                error.style.display = 'none';
+            });
+
+            const errorFields = document.querySelectorAll('.form-control.error');
+            errorFields.forEach(field => {
+                field.classList.remove('error');
+            });
+        }
+
+        // Field validation functions
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function isStrongPassword(password) {
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+            return passwordRegex.test(password);
+        }
+
+        function showError(field, errorElementId) {
+            field.classList.add('error');
+            field.classList.remove('success');
+            document.getElementById(errorElementId).style.display = 'block';
+        }
+
+        function clearError(field) {
+            field.classList.remove('error');
+            const fieldId = field.id;
+            document.getElementById(`${fieldId}Error`).style.display = 'none';
+        }
+
+        // Offline fallback registration (optional)
+        function fallbackRegistration(formData) {
+            // Store user data in localStorage
+            const users = JSON.parse(localStorage.getItem('booknookUsers') || '[]');
+            const newUser = {
+                id: Date.now(),
+                ...formData,
+                password: '***', // Don't store actual password
+                registeredAt: new Date().toISOString()
+            };
+            users.push(newUser);
+            localStorage.setItem('booknookUsers', JSON.stringify(users));
+
+            showApiStatus('✅ Account created (offline mode)! Data saved locally.', 'success');
+            setTimeout(() => {
+                window.location.href = 'login.html?message=registration_success_offline';
+            }, 2000);
+        }
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', function () {
+            // Test connection when page loads
+            setTimeout(() => {
+                testServerConnection();
+            }, 1000);
+
+            // Update form submission
+            registrationForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                submitForm();
+            });
+
+            // Test connection button
+            if (testConnectionBtn) {
+                testConnectionBtn.addEventListener('click', testServerConnection);
+            }
+
+            // Mobile menu toggle
+            document.querySelector('.mobile-menu').addEventListener('click', function () {
+                document.querySelector('nav').classList.toggle('active');
+            });
+
+            // Real-time validation
+            const formFields = document.querySelectorAll('#registrationForm input, #registrationForm select');
+            formFields.forEach(field => {
+                field.addEventListener('blur', function () {
+                    validateField(this);
+                    updateProgress();
+                });
+
+                field.addEventListener('input', function () {
+                    clearError(this);
+                    updateProgress();
+                });
+            });
+
+            // Check if user came from successful registration
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('message') === 'registration_success') {
+                showApiStatus('✅ Registration completed successfully! Please log in.', 'success');
+            }
+
+            // Initialize progress
+            updateProgress();
+        });
+
+        // Individual field validation
+        function validateField(field) {
+            const value = field.value.trim();
+            const fieldId = field.id;
+
+            switch (fieldId) {
+                case 'firstName':
+                case 'lastName':
+                    if (value === '') {
+                        showError(field, `${fieldId}Error`);
+                        return false;
+                    }
+                    break;
+
+                case 'email':
+                    if (value === '' || !isValidEmail(value)) {
+                        showError(field, 'emailError');
+                        return false;
+                    }
+                    break;
+
+                case 'password':
+                    if (value === '' || !isStrongPassword(value)) {
+                        showError(field, 'passwordError');
+                        return false;
+                    }
+                    break;
+
+                case 'confirmPassword':
+                    const password = document.getElementById('password').value;
+                    if (value === '' || value !== password) {
+                        showError(field, 'confirmPasswordError');
+                        return false;
+                    }
+                    break;
+            }
+
+            return true;
+        }
+
+        // Progress tracking
+        function updateProgress() {
+            const totalFields = document.querySelectorAll('#registrationForm input[required], #registrationForm select[required]').length;
+            let completedFields = 0;
+
+            document.querySelectorAll('#registrationForm input[required], #registrationForm select[required]').forEach(field => {
+                if (field.type === 'checkbox') {
+                    if (field.checked) completedFields++;
+                } else if (field.value.trim() !== '') {
+                    completedFields++;
+                }
+            });
+
+            const progress = (completedFields / totalFields) * 100;
+            document.getElementById('formProgress').style.width = `${progress}%`;
+            document.getElementById('progressText').textContent = `Form completion: ${Math.round(progress)}%`;
+        }
+    </script>
+</body>
+
+</html>

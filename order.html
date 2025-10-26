@@ -1,0 +1,1777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Books - The Digital Book Shop</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --text: #333;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --error: #e74c3c;
+            --chatbot-bg: #f8f9fa;
+            --user-msg: #3498db;
+            --bot-msg: #e3f2fd;
+            --digital-bg: #e8f4f8;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 2rem;
+            color: var(--secondary);
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        nav ul li a:hover {
+            color: var(--secondary);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--secondary);
+            transition: width 0.3s;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 0.5rem 1.2rem;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: white;
+            border: 1px solid white;
+        }
+
+        .btn-outline:hover {
+            background-color: white;
+            color: var(--primary);
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .breadcrumb {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+        }
+
+        .breadcrumb li {
+            margin: 0 0.5rem;
+        }
+
+        .breadcrumb li a {
+            color: var(--light);
+            text-decoration: none;
+        }
+
+        .breadcrumb li:not(:last-child)::after {
+            content: '>';
+            margin-left: 1rem;
+            color: var(--light);
+        }
+
+        .breadcrumb li:last-child {
+            color: var(--secondary);
+        }
+
+        /* Order Section */
+        .order-section {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: var(--primary);
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--secondary);
+        }
+
+        /* Tabs Navigation */
+        .tabs-navigation {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab-btn {
+            padding: 1rem 2rem;
+            background: none;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            color: var(--secondary);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--secondary);
+        }
+
+        .tab-btn:hover:not(.active) {
+            color: var(--primary);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .order-container {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 3rem;
+        }
+
+        /* Book Selection */
+        .book-selection {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .search-box {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 20px 12px 45px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            font-size: 1rem;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+
+        .filter-options {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .filter-btn.active {
+            background: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .book-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .book-card.selected {
+            border-color: var(--secondary);
+        }
+
+        .book-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--accent);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .book-badge.digital {
+            background: var(--success);
+        }
+
+        .book-img {
+            height: 180px;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #777;
+        }
+
+        .book-info {
+            padding: 1rem;
+        }
+
+        .book-info h3 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .book-info .author {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .book-info .price {
+            font-weight: bold;
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+
+        .book-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 6px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background 0.3s;
+        }
+
+        .action-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .action-btn.primary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .action-btn.primary:hover {
+            background: #2980b9;
+        }
+
+        /* Order Summary */
+        .order-summary {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .order-summary h3 {
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+
+        .order-items {
+            margin-bottom: 1.5rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-details h4 {
+            font-size: 0.9rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .item-details .author {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .item-type {
+            font-size: 0.7rem;
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        .item-price {
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .order-total {
+            border-top: 2px solid #eee;
+            padding-top: 1rem;
+            margin-top: 1rem;
+        }
+
+        .total-line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .total-line.final {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 1.5rem;
+        }
+
+        .checkout-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .checkout-btn:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+
+        /* E-Library Section */
+        .elibrary-section {
+            background: var(--digital-bg);
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .elibrary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .elibrary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .reading-progress {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--success);
+            border-radius: 4px;
+            transition: width 0.5s;
+        }
+
+        /* E-Reader Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .ereader-container {
+            background: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 800px;
+            height: 80%;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .ereader-header {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ereader-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .ereader-controls {
+            padding: 1rem;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .control-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--primary);
+            padding: 0.5rem;
+        }
+
+        .control-btn:hover {
+            color: var(--secondary);
+        }
+
+        .page-indicator {
+            font-weight: 500;
+        }
+
+        /* Chatbot Section */
+        .chatbot-section {
+            margin-top: 3rem;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .chatbot-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chatbot-header h3 {
+            margin: 0;
+        }
+
+        .chatbot-container {
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            background-color: var(--chatbot-bg);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            line-height: 1.4;
+            position: relative;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .user-message {
+            align-self: flex-end;
+            background-color: var(--user-msg);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .bot-message {
+            align-self: flex-start;
+            background-color: var(--bot-msg);
+            color: var(--text);
+            border-bottom-left-radius: 4px;
+        }
+
+        .quick-replies {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .quick-reply {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            padding: 6px 12px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .quick-reply:hover {
+            background: #f0f0f0;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 1rem;
+            border-top: 1px solid #eee;
+            background: white;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            font-size: 1rem;
+            margin-right: 10px;
+        }
+
+        .chat-input button {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .chat-input button:hover {
+            background: #2980b9;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 0 1.5rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--secondary);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-column ul li a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--secondary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: background-color 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--secondary);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .order-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .order-summary {
+                position: static;
+            }
+            
+            .books-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-wrap: wrap;
+            }
+            
+            nav {
+                width: 100%;
+                order: 3;
+                margin-top: 1rem;
+                display: none;
+            }
+            
+            nav.active {
+                display: block;
+            }
+            
+            nav ul {
+                flex-direction: column;
+            }
+            
+            nav ul li {
+                margin: 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            nav ul li a {
+                display: block;
+                padding: 0.8rem 0;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+            
+            .auth-buttons {
+                margin-left: auto;
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .tabs-navigation {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tab-btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .logo h1 {
+                font-size: 1.5rem;
+            }
+            
+            .books-grid {
+                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            }
+            
+            .message {
+                max-width: 90%;
+            }
+            
+            .filter-options {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-book-open"></i>
+                    <h1>Book<span>Nook</span></h1>
+                </div>
+                
+                <div class="mobile-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+                
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="order.html" class="active">Order</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="auth-buttons">
+                    <a href="login.html" class="btn btn-outline">Login</a>
+                    <a href="register.html" class="btn btn-primary">Register</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Order Books & E-Library</h1>
+            <ul class="breadcrumb">
+                <li><a href="index.html">Home</a></li>
+                <li>Order Books & E-Library</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Order Section -->
+    <section class="order-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Browse & Order Books</h2>
+                <p>Choose from physical books or instant digital downloads for your e-library</p>
+            </div>
+            
+            <!-- Tabs Navigation -->
+            <div class="tabs-navigation">
+                <button class="tab-btn active" data-tab="physical">Physical Books</button>
+                <button class="tab-btn" data-tab="digital">E-Library</button>
+                <button class="tab-btn" data-tab="my-library">My Library</button>
+            </div>
+            
+            <!-- Physical Books Tab -->
+            <div class="tab-content active" id="physical-tab">
+                <div class="order-container">
+                    <div class="book-selection">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="bookSearch" placeholder="Search for books by title, author, or genre...">
+                        </div>
+                        
+                        <div class="filter-options">
+                            <button class="filter-btn active" data-filter="all">All</button>
+                            <button class="filter-btn" data-filter="fiction">Fiction</button>
+                            <button class="filter-btn" data-filter="mystery">Mystery</button>
+                            <button class="filter-btn" data-filter="scifi">Sci-Fi</button>
+                            <button class="filter-btn" data-filter="business">Business</button>
+                        </div>
+                        
+                        <div class="books-grid" id="booksGrid">
+                            <!-- Books will be dynamically added here -->
+                        </div>
+                    </div>
+                    
+                    <div class="order-summary">
+                        <h3>Order Summary</h3>
+                        <div class="order-items" id="orderItems">
+                            <div class="empty-cart-message">
+                                <p>Your cart is empty. Select books to add to your order.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="order-total">
+                            <div class="total-line">
+                                <span>Subtotal:</span>
+                                <span id="subtotal">$0.00</span>
+                            </div>
+                            <div class="total-line">
+                                <span>Shipping:</span>
+                                <span id="shipping">$3.99</span>
+                            </div>
+                            <div class="total-line final">
+                                <span>Total:</span>
+                                <span id="total">$3.99</span>
+                            </div>
+                        </div>
+                        
+                        <button class="checkout-btn" id="checkoutBtn" disabled>Proceed to Checkout</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- E-Library Tab -->
+            <div class="tab-content" id="digital-tab">
+                <div class="elibrary-section">
+                    <div class="elibrary-header">
+                        <h3>Digital E-Library</h3>
+                        <div class="elibrary-stats">
+                            <div class="stat-card">
+                                <div class="stat-number" id="digitalBooksCount">0</div>
+                                <div class="stat-label">Digital Books</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" id="readingTime">0h</div>
+                                <div class="stat-label">Reading Time</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" id="booksRead">0</div>
+                                <div class="stat-label">Books Read</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="reading-progress">
+                        <h4>Current Reading Progress</h4>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="readingProgress" style="width: 0%"></div>
+                        </div>
+                        <p>You've read <span id="progressPercent">0%</span> of your current book</p>
+                    </div>
+                    
+                    <div class="books-grid" id="digitalBooksGrid">
+                        <!-- Digital books will be dynamically added here -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- My Library Tab -->
+            <div class="tab-content" id="my-library-tab">
+                <div class="elibrary-section">
+                    <h3>My Personal Library</h3>
+                    <div class="filter-options">
+                        <button class="filter-btn active" data-library-filter="all">All Books</button>
+                        <button class="filter-btn" data-library-filter="reading">Currently Reading</button>
+                        <button class="filter-btn" data-library-filter="completed">Completed</button>
+                        <button class="filter-btn" data-library-filter="favorites">Favorites</button>
+                    </div>
+                    <div class="books-grid" id="myLibraryGrid">
+                        <!-- User's library books will be dynamically added here -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- E-Reader Modal -->
+            <div class="modal" id="ereaderModal">
+                <div class="ereader-container">
+                    <div class="ereader-header">
+                        <h3 id="ereaderTitle">Book Title</h3>
+                        <button class="control-btn" id="closeEreader">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="ereader-content" id="ereaderContent">
+                        <!-- Book content will be dynamically added here -->
+                    </div>
+                    <div class="ereader-controls">
+                        <button class="control-btn" id="prevPage">
+                            <i class="fas fa-chevron-left"></i> Previous
+                        </button>
+                        <div class="page-indicator">
+                            Page <span id="currentPage">1</span> of <span id="totalPages">100</span>
+                        </div>
+                        <button class="control-btn" id="nextPage">
+                            Next <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Book Recommendation Chatbot -->
+            <div class="chatbot-section">
+                <div class="chatbot-header">
+                    <i class="fas fa-robot"></i>
+                    <h3>Book Recommendation Assistant</h3>
+                </div>
+                <div class="chatbot-container">
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="message bot-message">
+                            Hello! I'm your BookNook assistant. I can help you find the perfect books based on your interests. What type of books are you looking for today?
+                            <div class="quick-replies">
+                                <div class="quick-reply" data-reply="I love mystery novels">Mystery</div>
+                                <div class="quick-reply" data-reply="I'm into science fiction">Sci-Fi</div>
+                                <div class="quick-reply" data-reply="Recommend some romance books">Romance</div>
+                                <div class="quick-reply" data-reply="I need business books">Business</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" id="chatInput" placeholder="Ask for book recommendations...">
+                        <button id="sendMessage">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>The Digital Book Shop</h3>
+                    <p>Your literary haven since 2010. We're dedicated to bringing the joy of reading to book lovers everywhere.</p>
+                    <div class="social-links">
+                        <a href=""><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://x.com/"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-goodreads"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="order.html">Order Books</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Customer Service</h3>
+                    <ul>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Shipping Policy</a></li>
+                        <li><a href="#">Returns & Refunds</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> sindh Street, karachi City</li>
+                        <li><i class="fas fa-phone"></i> (123) 456-7890</li>
+                        <li><i class="fas fa-envelope"></i> info@booknook.com</li>
+                        <li><i class="fas fa-clock"></i> Mon-Sat: 9AM-6PM</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 Muhammad Talal Kaimkhani. All rights reserved to Him.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Enhanced book data with digital books
+        const books = [
+            { id: 1, title: "The Silent Patient", author: "Alex Michaelides", price: 14.99, genre: "Mystery", description: "A psychological thriller about a woman's act of violence against her husband.", type: "physical" },
+            { id: 2, title: "Where the Crawdads Sing", author: "Delia Owens", price: 16.99, genre: "Fiction", description: "A stunning novel about an abandoned girl who raises herself in the marshes.", type: "physical" },
+            { id: 3, title: "The Midnight Library", author: "Matt Haig", price: 13.49, genre: "Fiction", description: "Between life and death there is a library, and within that library, the shelves go on forever.", type: "digital" },
+            { id: 4, title: "Project Hail Mary", author: "Andy Weir", price: 18.99, genre: "Science Fiction", description: "A lone astronaut must save the earth from disaster in this incredible scientific thriller.", type: "digital" },
+            { id: 5, title: "The Hobbit", author: "J.R.R. Tolkien", price: 12.99, genre: "Fantasy", description: "A fantasy novel about the adventures of hobbit Bilbo Baggins.", type: "digital" },
+            { id: 6, title: "Pride and Prejudice", author: "Jane Austen", price: 9.99, genre: "Romance", description: "A romantic novel of manners that depicts the emotional development of protagonist Elizabeth Bennet.", type: "digital" },
+            { id: 7, title: "The Lean Startup", author: "Eric Ries", price: 17.99, genre: "Business", description: "How today's entrepreneurs use continuous innovation to create radically successful businesses.", type: "digital" },
+            { id: 8, title: "Atomic Habits", author: "James Clear", price: 16.99, genre: "Self-Help", description: "Tiny changes, remarkable results - an easy way to build good habits and break bad ones.", type: "digital" },
+            { id: 9, title: "Dune", author: "Frank Herbert", price: 15.99, genre: "Science Fiction", description: "A science fiction novel set in the distant future amidst a feudal interstellar society.", type: "digital" },
+            { id: 10, title: "The Da Vinci Code", author: "Dan Brown", price: 14.49, genre: "Mystery", description: "A mystery thriller novel that follows symbologist Robert Langdon.", type: "digital" }
+        ];
+
+        // E-Library data
+        let userLibrary = JSON.parse(localStorage.getItem('booknookLibrary')) || [];
+        let readingProgress = JSON.parse(localStorage.getItem('readingProgress')) || {};
+        let currentBook = null;
+        let currentPage = 1;
+
+        // Shopping cart
+        let cart = [];
+
+        // DOM Elements
+        const booksGrid = document.getElementById('booksGrid');
+        const digitalBooksGrid = document.getElementById('digitalBooksGrid');
+        const myLibraryGrid = document.getElementById('myLibraryGrid');
+        const orderItems = document.getElementById('orderItems');
+        const subtotalElement = document.getElementById('subtotal');
+        const shippingElement = document.getElementById('shipping');
+        const totalElement = document.getElementById('total');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        const bookSearch = document.getElementById('bookSearch');
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const sendMessageBtn = document.getElementById('sendMessage');
+        const ereaderModal = document.getElementById('ereaderModal');
+        const ereaderTitle = document.getElementById('ereaderTitle');
+        const ereaderContent = document.getElementById('ereaderContent');
+        const currentPageElement = document.getElementById('currentPage');
+        const totalPagesElement = document.getElementById('totalPages');
+        const closeEreader = document.getElementById('closeEreader');
+        const prevPage = document.getElementById('prevPage');
+        const nextPage = document.getElementById('nextPage');
+        const digitalBooksCount = document.getElementById('digitalBooksCount');
+        const readingTime = document.getElementById('readingTime');
+        const booksRead = document.getElementById('booksRead');
+        const readingProgressBar = document.getElementById('readingProgress');
+        const progressPercent = document.getElementById('progressPercent');
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            renderBooks();
+            renderDigitalBooks();
+            renderMyLibrary();
+            updateOrderSummary();
+            updateELibraryStats();
+            
+            // Mobile menu toggle
+            document.querySelector('.mobile-menu').addEventListener('click', function() {
+                document.querySelector('nav').classList.toggle('active');
+            });
+            
+            // Tab functionality
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Update active tab
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show corresponding tab content
+                    const tab = this.getAttribute('data-tab');
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    document.getElementById(tab + '-tab').classList.add('active');
+                });
+            });
+            
+            // Search functionality
+            bookSearch.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const filteredBooks = books.filter(book => 
+                    book.title.toLowerCase().includes(searchTerm) || 
+                    book.author.toLowerCase().includes(searchTerm) ||
+                    book.genre.toLowerCase().includes(searchTerm)
+                );
+                renderBooks(filteredBooks);
+            });
+            
+            // Filter functionality
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (this.getAttribute('data-filter')) {
+                        // Physical books filter
+                        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                        
+                        const filter = this.getAttribute('data-filter');
+                        const filteredBooks = filter === 'all' ? books : books.filter(book => book.genre.toLowerCase().includes(filter));
+                        renderBooks(filteredBooks);
+                    } else if (this.getAttribute('data-library-filter')) {
+                        // Library filter
+                        document.querySelectorAll('[data-library-filter]').forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                        
+                        const filter = this.getAttribute('data-library-filter');
+                        renderMyLibrary(filter);
+                    }
+                });
+            });
+            
+            // Chatbot functionality
+            sendMessageBtn.addEventListener('click', sendMessage);
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            // Quick replies
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('quick-reply')) {
+                    const reply = e.target.getAttribute('data-reply');
+                    addMessage(reply, 'user');
+                    processUserMessage(reply);
+                }
+            });
+            
+            // E-Reader functionality
+            closeEreader.addEventListener('click', function() {
+                ereaderModal.classList.remove('active');
+                saveReadingProgress();
+            });
+            
+            prevPage.addEventListener('click', function() {
+                if (currentPage > 1) {
+                    currentPage--;
+                    updateEreaderPage();
+                }
+            });
+            
+            nextPage.addEventListener('click', function() {
+                if (currentPage < parseInt(totalPagesElement.textContent)) {
+                    currentPage++;
+                    updateEreaderPage();
+                }
+            });
+        });
+
+        // Render physical books to the grid
+        function renderBooks(booksToRender = books.filter(book => book.type === 'physical')) {
+            booksGrid.innerHTML = '';
+            
+            booksToRender.forEach(book => {
+                const isInCart = cart.some(item => item.id === book.id);
+                
+                const bookCard = document.createElement('div');
+                bookCard.className = `book-card ${isInCart ? 'selected' : ''}`;
+                bookCard.innerHTML = `
+                    <div class="book-badge">Physical</div>
+                    <div class="book-img">
+                        <i class="fas fa-book fa-3x"></i>
+                    </div>
+                    <div class="book-info">
+                        <h3>${book.title}</h3>
+                        <div class="author">by ${book.author}</div>
+                        <div class="price">$${book.price.toFixed(2)}</div>
+                        <div class="book-actions">
+                            <button class="action-btn primary" onclick="toggleBookInCart(${book.id})">
+                                ${isInCart ? 'Remove' : 'Add to Cart'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                booksGrid.appendChild(bookCard);
+            });
+        }
+
+        // Render digital books to the grid
+        function renderDigitalBooks() {
+            digitalBooksGrid.innerHTML = '';
+            
+            const digitalBooks = books.filter(book => book.type === 'digital');
+            
+            digitalBooks.forEach(book => {
+                const isInLibrary = userLibrary.some(item => item.id === book.id);
+                
+                const bookCard = document.createElement('div');
+                bookCard.className = 'book-card';
+                bookCard.innerHTML = `
+                    <div class="book-badge digital">Digital</div>
+                    <div class="book-img">
+                        <i class="fas fa-tablet-alt fa-3x"></i>
+                    </div>
+                    <div class="book-info">
+                        <h3>${book.title}</h3>
+                        <div class="author">by ${book.author}</div>
+                        <div class="price">$${book.price.toFixed(2)}</div>
+                        <div class="book-actions">
+                            <button class="action-btn ${isInLibrary ? '' : 'primary'}" onclick="${isInLibrary ? `openEreader(${book.id})` : `addToLibrary(${book.id})`}">
+                                ${isInLibrary ? 'Read Now' : 'Add to Library'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                digitalBooksGrid.appendChild(bookCard);
+            });
+        }
+
+        // Render user's library
+        function renderMyLibrary(filter = 'all') {
+            myLibraryGrid.innerHTML = '';
+            
+            let filteredLibrary = userLibrary;
+            
+            if (filter === 'reading') {
+                filteredLibrary = userLibrary.filter(book => readingProgress[book.id] && readingProgress[book.id] < 100);
+            } else if (filter === 'completed') {
+                filteredLibrary = userLibrary.filter(book => readingProgress[book.id] && readingProgress[book.id] >= 100);
+            } else if (filter === 'favorites') {
+                filteredLibrary = userLibrary.filter(book => book.favorite);
+            }
+            
+            if (filteredLibrary.length === 0) {
+                myLibraryGrid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #666;">
+                        <i class="fas fa-book-open fa-3x" style="margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <h3>No books in your library</h3>
+                        <p>Add some digital books to your library to get started!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            filteredLibrary.forEach(book => {
+                const progress = readingProgress[book.id] || 0;
+                const isCompleted = progress >= 100;
+                
+                const bookCard = document.createElement('div');
+                bookCard.className = 'book-card';
+                bookCard.innerHTML = `
+                    <div class="book-badge digital">${isCompleted ? 'Completed' : 'Digital'}</div>
+                    <div class="book-img">
+                        <i class="fas fa-tablet-alt fa-3x"></i>
+                    </div>
+                    <div class="book-info">
+                        <h3>${book.title}</h3>
+                        <div class="author">by ${book.author}</div>
+                        <div class="progress-bar" style="height: 4px; margin: 0.5rem 0;">
+                            <div class="progress-fill" style="width: ${progress}%"></div>
+                        </div>
+                        <div style="font-size: 0.8rem; color: #666;">${progress}% read</div>
+                        <div class="book-actions">
+                            <button class="action-btn primary" onclick="openEreader(${book.id})">
+                                ${isCompleted ? 'Re-read' : 'Continue Reading'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                myLibraryGrid.appendChild(bookCard);
+            });
+        }
+
+        // Toggle book in cart
+        function toggleBookInCart(bookId) {
+            const book = books.find(b => b.id === bookId);
+            const existingIndex = cart.findIndex(item => item.id === bookId);
+            
+            if (existingIndex !== -1) {
+                // Remove from cart
+                cart.splice(existingIndex, 1);
+            } else {
+                // Add to cart
+                cart.push({...book, quantity: 1});
+            }
+            
+            renderBooks();
+            updateOrderSummary();
+        }
+
+        // Add book to digital library
+        function addToLibrary(bookId) {
+            const book = books.find(b => b.id === bookId);
+            
+            if (!userLibrary.some(item => item.id === bookId)) {
+                userLibrary.push({
+                    ...book,
+                    favorite: false,
+                    addedDate: new Date().toISOString()
+                });
+                
+                // Initialize reading progress
+                if (!readingProgress[bookId]) {
+                    readingProgress[bookId] = 0;
+                }
+                
+                // Save to localStorage
+                localStorage.setItem('booknookLibrary', JSON.stringify(userLibrary));
+                localStorage.setItem('readingProgress', JSON.stringify(readingProgress));
+                
+                // Update UI
+                renderDigitalBooks();
+                renderMyLibrary();
+                updateELibraryStats();
+                
+                // Show success message
+                alert(`"${book.title}" has been added to your digital library!`);
+            }
+        }
+
+        // Open e-reader for a book
+        function openEreader(bookId) {
+            const book = userLibrary.find(b => b.id === bookId) || books.find(b => b.id === bookId);
+            
+            if (book) {
+                currentBook = book;
+                currentPage = Math.floor((readingProgress[bookId] || 0) / 100 * 10) + 1 || 1;
+                
+                ereaderTitle.textContent = book.title;
+                updateEreaderPage();
+                
+                ereaderModal.classList.add('active');
+            }
+        }
+
+        // Update e-reader page content
+        function updateEreaderPage() {
+            if (!currentBook) return;
+            
+            const totalPages = 10; // Simulated total pages
+            const pageContent = generatePageContent(currentBook, currentPage);
+            
+            ereaderContent.innerHTML = pageContent;
+            currentPageElement.textContent = currentPage;
+            totalPagesElement.textContent = totalPages;
+            
+            // Update reading progress
+            const progress = Math.min(100, Math.floor((currentPage / totalPages) * 100));
+            readingProgress[currentBook.id] = progress;
+            localStorage.setItem('readingProgress', JSON.stringify(readingProgress));
+            
+            // Update progress in UI
+            updateELibraryStats();
+        }
+
+        // Generate simulated page content
+        function generatePageContent(book, page) {
+            const paragraphs = [
+                `You are reading "${book.title}" by ${book.author}.`,
+                `This is page ${page} of your digital reading experience.`,
+                `In a real application, this would contain the actual book content.`,
+                `For demonstration purposes, we're showing sample content.`,
+                `The book "${book.title}" is about: ${book.description}`,
+                `Continue reading to discover more about this fascinating story.`,
+                `Digital reading allows you to access books anytime, anywhere.`,
+                `BookNook's e-library system makes reading convenient and enjoyable.`,
+                `You can bookmark pages, take notes, and adjust reading settings.`,
+                `Thank you for using BookNook's digital reading platform!`
+            ];
+            
+            let content = `<h2>${book.title}</h2>`;
+            content += `<p><em>by ${book.author}</em></p>`;
+            content += `<div style="margin-top: 2rem;">`;
+            
+            // Show different content based on page
+            for (let i = 0; i < 5; i++) {
+                const paraIndex = (page - 1 + i) % paragraphs.length;
+                content += `<p style="margin-bottom: 1.5rem;">${paragraphs[paraIndex]}</p>`;
+            }
+            
+            content += `</div>`;
+            
+            return content;
+        }
+
+        // Save reading progress when closing e-reader
+        function saveReadingProgress() {
+            if (currentBook) {
+                localStorage.setItem('readingProgress', JSON.stringify(readingProgress));
+            }
+        }
+
+        // Update e-library statistics
+        function updateELibraryStats() {
+            digitalBooksCount.textContent = userLibrary.length;
+            
+            // Calculate reading time (simulated)
+            const totalReadingTime = userLibrary.reduce((total, book) => {
+                return total + (readingProgress[book.id] || 0) * 0.5; // 0.5 minutes per percentage
+            }, 0);
+            readingTime.textContent = `${Math.floor(totalReadingTime / 60)}h ${Math.floor(totalReadingTime % 60)}m`;
+            
+            // Calculate books read
+            const completedBooks = userLibrary.filter(book => readingProgress[book.id] >= 100).length;
+            booksRead.textContent = completedBooks;
+            
+            // Update current reading progress
+            const currentBookId = Object.keys(readingProgress).find(id => 
+                readingProgress[id] > 0 && readingProgress[id] < 100
+            );
+            
+            if (currentBookId) {
+                const progress = readingProgress[currentBookId];
+                readingProgressBar.style.width = `${progress}%`;
+                progressPercent.textContent = `${progress}%`;
+            } else {
+                readingProgressBar.style.width = '0%';
+                progressPercent.textContent = '0%';
+            }
+        }
+
+        // Update order summary
+        function updateOrderSummary() {
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const shipping = subtotal > 0 ? 3.99 : 0;
+            const total = subtotal + shipping;
+            
+            subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
+            shippingElement.textContent = `$${shipping.toFixed(2)}`;
+            totalElement.textContent = `$${total.toFixed(2)}`;
+            
+            // Update order items
+            if (cart.length === 0) {
+                orderItems.innerHTML = '<div class="empty-cart-message"><p>Your cart is empty. Select books to add to your order.</p></div>';
+                checkoutBtn.disabled = true;
+            } else {
+                orderItems.innerHTML = '';
+                cart.forEach(item => {
+                    const orderItem = document.createElement('div');
+                    orderItem.className = 'order-item';
+                    orderItem.innerHTML = `
+                        <div class="item-details">
+                            <h4>${item.title}</h4>
+                            <div class="author">by ${item.author}</div>
+                            <div class="item-type">Physical Copy</div>
+                        </div>
+                        <div class="item-price">$${item.price.toFixed(2)}</div>
+                    `;
+                    orderItems.appendChild(orderItem);
+                });
+                checkoutBtn.disabled = false;
+            }
+        }
+
+        // Chatbot functions (same as before, but enhanced for e-library)
+        function sendMessage() {
+            const message = chatInput.value.trim();
+            if (message) {
+                addMessage(message, 'user');
+                processUserMessage(message);
+                chatInput.value = '';
+            }
+        }
+
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+            messageDiv.textContent = text;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function addBotMessageWithReplies(text, replies) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message bot-message';
+            messageDiv.innerHTML = text;
+            
+            if (replies && replies.length > 0) {
+                const quickRepliesDiv = document.createElement('div');
+                quickRepliesDiv.className = 'quick-replies';
+                
+                replies.forEach(reply => {
+                    const replyBtn = document.createElement('div');
+                    replyBtn.className = 'quick-reply';
+                    replyBtn.setAttribute('data-reply', reply);
+                    replyBtn.textContent = reply;
+                    quickRepliesDiv.appendChild(replyBtn);
+                });
+                
+                messageDiv.appendChild(quickRepliesDiv);
+            }
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function processUserMessage(message) {
+            // Simulate typing delay
+            setTimeout(() => {
+                const lowerMessage = message.toLowerCase();
+                
+                // Enhanced chatbot responses for e-library
+                if (lowerMessage.includes('digital') || lowerMessage.includes('e-library') || lowerMessage.includes('ebook')) {
+                    addBotMessageWithReplies(
+                        "Our e-library offers instant access to digital books! You can:<br><br>" +
+                        "• Read on any device<br>" +
+                        "• Track your reading progress<br>" +
+                        "• Access your books anytime<br>" +
+                        "• No shipping fees<br><br>" +
+                        "Would you like to browse our digital collection?",
+                        ["Show me digital books", "How does e-library work?", "Physical vs Digital"]
+                    );
+                }
+                else if (lowerMessage.includes('mystery') || lowerMessage.includes('thriller')) {
+                    addBotMessageWithReplies(
+                        "Great choice! Mystery and thriller books keep you on the edge of your seat. I recommend:<br><br>" +
+                        "• <strong>The Silent Patient</strong> by Alex Michaelides - $14.99 (Physical)<br>" +
+                        "• <strong>The Da Vinci Code</strong> by Dan Brown - $14.49 (Digital)<br><br>" +
+                        "Would you like me to add any of these to your cart or library?",
+                        ["Add The Silent Patient to cart", "Add The Da Vinci Code to library", "Show me more options"]
+                    );
+                } 
+                // ... rest of chatbot logic remains the same as before
+                else {
+                    addBotMessageWithReplies(
+                        "I'm here to help you with both physical books and our e-library! You can ask me about:<br><br>" +
+                        "• Physical book ordering and shipping<br>" +
+                        "• Digital books and e-library features<br>" +
+                        "• Book recommendations by genre<br>" +
+                        "• Your reading progress and library<br><br>" +
+                        "What would you like to know about?",
+                        ["Physical books", "Digital library", "Book recommendations", "My reading progress"]
+                    );
+                }
+            }, 1000);
+        }
+
+        // Checkout button functionality
+        checkoutBtn.addEventListener('click', function() {
+            if (cart.length > 0) {
+                alert(`Thank you for your order! You've purchased ${cart.length} book(s) for a total of $${(cart.reduce((sum, item) => sum + item.price, 0) + 3.99).toFixed(2)}. In a real application, you would be redirected to a payment page.`);
+                // In a real app, you would redirect to a checkout page
+                // window.location.href = 'checkout.html';
+            }
+        });
+    </script>
+</body>
+</html>

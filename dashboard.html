@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - The Digital Book Shop</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --text: #333;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --error: #e74c3c;
+            --card-bg: #ffffff;
+            --sidebar-bg: #2c3e50;
+            --sidebar-text: #ecf0f1;
+            --sidebar-hover: #34495e;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--text);
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 2rem;
+            color: var(--secondary);
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        nav ul li a:hover {
+            color: var(--secondary);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--secondary);
+            transition: width 0.3s;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 0.5rem 1.2rem;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: white;
+            border: 1px solid white;
+        }
+
+        .btn-outline:hover {
+            background-color: white;
+            color: var(--primary);
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .breadcrumb {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+        }
+
+        .breadcrumb li {
+            margin: 0 0.5rem;
+        }
+
+        .breadcrumb li a {
+            color: var(--light);
+            text-decoration: none;
+        }
+
+        .breadcrumb li:not(:last-child)::after {
+            content: '>';
+            margin-left: 1rem;
+            color: var(--light);
+        }
+
+        .breadcrumb li:last-child {
+            color: var(--secondary);
+        }
+
+        /* Dashboard Layout */
+        .dashboard-container {
+            display: flex;
+            min-height: calc(100vh - 200px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background-color: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            padding: 2rem 0;
+            transition: all 0.3s;
+        }
+
+        .sidebar.collapsed {
+            width: 70px;
+        }
+
+        .sidebar-header {
+            padding: 0 1.5rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .sidebar-toggle {
+            background: none;
+            border: none;
+            color: var(--sidebar-text);
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1.5rem;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background-color: var(--sidebar-hover);
+            border-left: 4px solid var(--secondary);
+        }
+
+        .sidebar-menu i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .sidebar.collapsed .menu-text {
+            display: none;
+        }
+
+        .sidebar.collapsed .sidebar-header {
+            justify-content: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            background-color: #f5f7fa;
+            overflow-y: auto;
+        }
+
+        /* Dashboard Header */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .user-welcome h2 {
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+
+        .user-welcome p {
+            color: #666;
+        }
+
+        .date-display {
+            background: var(--card-bg);
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            font-weight: 500;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .stat-icon.books {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+
+        .stat-icon.time {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+        }
+
+        .stat-icon.pages {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        .stat-icon.goal {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+        }
+
+        .stat-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.2rem;
+            color: var(--primary);
+        }
+
+        .stat-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+        }
+
+        /* Charts Section */
+        .chart-section {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .chart-header h3 {
+            color: var(--primary);
+        }
+
+        .chart-options {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chart-option {
+            padding: 0.4rem 0.8rem;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .chart-option.active {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .chart-container {
+            height: 300px;
+            position: relative;
+        }
+
+        /* Currently Reading */
+        .current-reading {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+        }
+
+        .book-cover {
+            width: 80px;
+            height: 100px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            margin-right: 1rem;
+        }
+
+        .book-info {
+            flex: 1;
+        }
+
+        .book-title {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .book-author {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-container {
+            margin: 1rem 0;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--secondary);
+            border-radius: 4px;
+            transition: width 0.5s;
+        }
+
+        .book-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 0.5rem;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .action-btn.primary {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .action-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .action-btn.primary:hover {
+            background: #2980b9;
+        }
+
+        /* Reading Goals */
+        .goals-section {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+        }
+
+        .goal-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .goal-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .goal-title {
+            font-weight: 500;
+        }
+
+        .goal-progress {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .goal-bar {
+            height: 6px;
+            background: #f0f0f0;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .goal-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.5s;
+        }
+
+        .goal-fill.books {
+            background: var(--secondary);
+        }
+
+        .goal-fill.pages {
+            background: var(--success);
+        }
+
+        .goal-fill.time {
+            background: var(--warning);
+        }
+
+        /* Recent Activity */
+        .activity-section {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .activity-list {
+            list-style: none;
+        }
+
+        .activity-item {
+            display: flex;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: white;
+        }
+
+        .activity-icon.reading {
+            background: var(--secondary);
+        }
+
+        .activity-icon.completed {
+            background: var(--success);
+        }
+
+        .activity-icon.added {
+            background: var(--accent);
+        }
+
+        .activity-details {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 500;
+            margin-bottom: 0.2rem;
+        }
+
+        .activity-time {
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        /* Recommendations */
+        .recommendations-section {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+        }
+
+        .recommendations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .recommendation-card {
+            background: #f9f9f9;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .recommendation-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .rec-cover {
+            height: 120px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .rec-info {
+            padding: 0.8rem;
+        }
+
+        .rec-title {
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .rec-author {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 0 1.5rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--secondary);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-column ul li a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--secondary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: background-color 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--secondary);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                width: 70px;
+            }
+
+            .menu-text {
+                display: none;
+            }
+
+            .sidebar-header {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-wrap: wrap;
+            }
+
+            nav {
+                width: 100%;
+                order: 3;
+                margin-top: 1rem;
+                display: none;
+            }
+
+            nav.active {
+                display: block;
+            }
+
+            nav ul {
+                flex-direction: column;
+            }
+
+            nav ul li {
+                margin: 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            nav ul li a {
+                display: block;
+                padding: 0.8rem 0;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .auth-buttons {
+                margin-left: auto;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .logo h1 {
+                font-size: 1.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .recommendations-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-book-open"></i>
+                    <h1>The Digital<span>Book Shop</span></h1>
+                </div>
+
+                <div class="mobile-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="dashboard.html" class="active">Dashboard</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="order.html">Order</a></li>
+                    </ul>
+                </nav>
+
+                <div class="auth-buttons">
+                    <a href="login.html" class="btn btn-outline">Login</a>
+                    <a href="register.html" class="btn btn-primary">Register</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>My Dashboard</h1>
+            <ul class="breadcrumb">
+                <li><a href="index.html">Home</a></li>
+                <li>Dashboard</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Dashboard Container -->
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3 class="menu-text">Menu</h3>
+                <button class="sidebar-toggle">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="#" class="active"><i class="fas fa-tachometer-alt"></i> <span
+                            class="menu-text">Dashboard</span></a></li>
+                <li><a href="#"><i class="fas fa-book"></i> <span class="menu-text">My Library</span></a></li>
+                <li><a href="#"><i class="fas fa-bookmark"></i> <span class="menu-text">Reading List</span></a></li>
+                <li><a href="#"><i class="fas fa-chart-line"></i> <span class="menu-text">Reading Stats</span></a></li>
+                <li><a href="#"><i class="fas fa-trophy"></i> <span class="menu-text">Achievements</span></a></li>
+                <li><a href="#"><i class="fas fa-cog"></i> <span class="menu-text">Settings</span></a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Header -->
+            <div class="dashboard-header">
+                <div class="user-welcome">
+                    <h2>Welcome back, Muhammad Talal Ejaz!</h2>
+                    <p>Here's your reading overview for today</p>
+                </div>
+                <div class="date-display">
+                    <i class="fas fa-calendar-alt"></i> <span id="currentDate">Monday, October 16, 2023</span>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon books">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>24</h3>
+                        <p>Books Read</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon time">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>36h</h3>
+                        <p>Reading Time</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon pages">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>1,248</h3>
+                        <p>Pages Read</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon goal">
+                        <i class="fas fa-flag"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>75%</h3>
+                        <p>Goal Progress</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Grid -->
+            <div class="dashboard-grid">
+                <!-- Left Column -->
+                <div class="left-column">
+                    <!-- Reading Activity Chart -->
+                    <div class="chart-section">
+                        <div class="chart-header">
+                            <h3>Reading Activity</h3>
+                            <div class="chart-options">
+                                <button class="chart-option active">Weekly</button>
+                                <button class="chart-option">Monthly</button>
+                                <button class="chart-option">Yearly</button>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="readingChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Currently Reading -->
+                    <div class="current-reading">
+                        <div class="chart-header">
+                            <h3>Currently Reading</h3>
+                            <a href="#" class="btn btn-primary">View All</a>
+                        </div>
+                        <div style="display: flex; align-items: center;">
+                            <div class="book-cover">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="book-info">
+                                <div class="book-title">The Midnight Library</div>
+                                <div class="book-author">by Matt Haig</div>
+                                <div class="progress-container">
+                                    <div class="progress-info">
+                                        <span>Chapter 12 of 25</span>
+                                        <span>48%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 48%"></div>
+                                    </div>
+                                </div>
+                                <div class="book-actions">
+                                    <button class="action-btn primary"><i class="fas fa-play"></i> Continue</button>
+                                    <button class="action-btn"><i class="fas fa-bookmark"></i> Bookmark</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recommendations -->
+                    <div class="recommendations-section">
+                        <div class="chart-header">
+                            <h3>Recommended For You</h3>
+                            <a href="#" class="btn btn-primary">See More</a>
+                        </div>
+                        <div class="recommendations-grid">
+                            <div class="recommendation-card">
+                                <div class="rec-cover">
+                                    <i class="fas fa-book"></i>
+                                </div>
+                                <div class="rec-info">
+                                    <div class="rec-title">Project Hail Mary</div>
+                                    <div class="rec-author">Andy Weir</div>
+                                </div>
+                            </div>
+                            <div class="recommendation-card">
+                                <div class="rec-cover">
+                                    <i class="fas fa-book"></i>
+                                </div>
+                                <div class="rec-info">
+                                    <div class="rec-title">The Silent Patient</div>
+                                    <div class="rec-author">Alex Michaelides</div>
+                                </div>
+                            </div>
+                            <div class="recommendation-card">
+                                <div class="rec-cover">
+                                    <i class="fas fa-book"></i>
+                                </div>
+                                <div class="rec-info">
+                                    <div class="rec-title">Where the Crawdads Sing</div>
+                                    <div class="rec-author">Delia Owens</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="right-column">
+                    <!-- Reading Goals -->
+                    <div class="goals-section">
+                        <div class="chart-header">
+                            <h3>Reading Goals</h3>
+                            <a href="#" class="btn btn-primary">Edit</a>
+                        </div>
+                        <div class="goal-item">
+                            <div class="goal-header">
+                                <span class="goal-title">Books This Year</span>
+                                <span class="goal-progress">12/20</span>
+                            </div>
+                            <div class="goal-bar">
+                                <div class="goal-fill books" style="width: 60%"></div>
+                            </div>
+                        </div>
+                        <div class="goal-item">
+                            <div class="goal-header">
+                                <span class="goal-title">Pages This Month</span>
+                                <span class="goal-progress">320/500</span>
+                            </div>
+                            <div class="goal-bar">
+                                <div class="goal-fill pages" style="width: 64%"></div>
+                            </div>
+                        </div>
+                        <div class="goal-item">
+                            <div class="goal-header">
+                                <span class="goal-title">Reading Time</span>
+                                <span class="goal-progress">5/10h</span>
+                            </div>
+                            <div class="goal-bar">
+                                <div class="goal-fill time" style="width: 50%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="activity-section">
+                        <div class="chart-header">
+                            <h3>Recent Activity</h3>
+                            <a href="#" class="btn btn-primary">View All</a>
+                        </div>
+                        <ul class="activity-list">
+                            <li class="activity-item">
+                                <div class="activity-icon reading">
+                                    <i class="fas fa-book-open"></i>
+                                </div>
+                                <div class="activity-details">
+                                    <div class="activity-title">Continued reading The Midnight Library</div>
+                                    <div class="activity-time">2 hours ago</div>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-icon completed">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <div class="activity-details">
+                                    <div class="activity-title">Finished Atomic Habits</div>
+                                    <div class="activity-time">1 day ago</div>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-icon added">
+                                    <i class="fas fa-plus"></i>
+                                </div>
+                                <div class="activity-details">
+                                    <div class="activity-title">Added Project Hail Mary to library</div>
+                                    <div class="activity-time">2 days ago</div>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-icon reading">
+                                    <i class="fas fa-book-open"></i>
+                                </div>
+                                <div class="activity-details">
+                                    <div class="activity-title">Started reading The Lean Startup</div>
+                                    <div class="activity-time">3 days ago</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>The Digital Book Shop</h3>
+                    <p>Your literary haven since 2010. We're dedicated to bringing the joy of reading to book lovers
+                        everywhere.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-goodreads"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="order.html">Order Books</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Customer Service</h3>
+                    <ul>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Shipping Policy</a></li>
+                        <li><a href="#">Returns & Refunds</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> sindh  Street, karachi city</li>
+                        <li><i class="fas fa-phone"></i> (123) 456-7890</li>
+                        <li><i class="fas fa-envelope"></i> info@booknook.com</li>
+                        <li><i class="fas fa-clock"></i> Mon-Sat: 9AM-6PM</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2025 Muhammad Talal Kaimkhani. All rights reserved to Him.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Dashboard functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            // Set current date
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const currentDate = new Date().toLocaleDateString('en-US', options);
+            document.getElementById('currentDate').textContent = currentDate;
+
+            // Mobile menu toggle
+            const mobileMenu = document.querySelector('.mobile-menu');
+            const nav = document.querySelector('nav');
+
+            mobileMenu.addEventListener('click', function () {
+                nav.classList.toggle('active');
+            });
+
+            // Sidebar toggle
+            const sidebarToggle = document.querySelector('.sidebar-toggle');
+            const sidebar = document.querySelector('.sidebar');
+
+            sidebarToggle.addEventListener('click', function () {
+                sidebar.classList.toggle('collapsed');
+
+                // Change icon based on state
+                if (sidebar.classList.contains('collapsed')) {
+                    sidebarToggle.innerHTML = '<i class="fas fa-chevron-right"></i>';
+                } else {
+                    sidebarToggle.innerHTML = '<i class="fas fa-chevron-left"></i>';
+                }
+            });
+
+            // Chart initialization
+            const ctx = document.getElementById('readingChart').getContext('2d');
+            const readingChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Reading Time (minutes)',
+                        data: [45, 60, 30, 75, 50, 90, 40],
+                        backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                        borderColor: 'rgba(52, 152, 219, 1)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Chart period toggle
+            const chartOptions = document.querySelectorAll('.chart-option');
+            chartOptions.forEach(option => {
+                option.addEventListener('click', function () {
+                    chartOptions.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // In a real app, this would update the chart data
+                    // For demo purposes, we'll just update the chart title
+                    const chartHeader = document.querySelector('.chart-section h3');
+                    if (this.textContent === 'Weekly') {
+                        chartHeader.textContent = 'Reading Activity (Weekly)';
+                    } else if (this.textContent === 'Monthly') {
+                        chartHeader.textContent = 'Reading Activity (Monthly)';
+                    } else {
+                        chartHeader.textContent = 'Reading Activity (Yearly)';
+                    }
+                });
+            });
+
+            // Simulate data updates
+            setInterval(() => {
+                // Update reading progress randomly for demo
+                const progressFill = document.querySelector('.progress-fill');
+                const currentWidth = parseInt(progressFill.style.width);
+                const newWidth = Math.min(100, currentWidth + Math.random() * 5);
+                progressFill.style.width = `${newWidth}%`;
+
+                // Update progress percentage
+                const progressInfo = document.querySelector('.progress-info span:last-child');
+                progressInfo.textContent = `${Math.round(newWidth)}%`;
+            }, 5000);
+        });
+    </script>
+</body>
+
+</html>

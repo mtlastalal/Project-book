@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services - The Digital Book Shop</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --text: #333;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --error: #e74c3c;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 2rem;
+            color: var(--secondary);
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        nav ul li a:hover {
+            color: var(--secondary);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--secondary);
+            transition: width 0.3s;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 0.5rem 1.2rem;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: white;
+            border: 1px solid white;
+        }
+
+        .btn-outline:hover {
+            background-color: white;
+            color: var(--primary);
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .breadcrumb {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+        }
+
+        .breadcrumb li {
+            margin: 0 0.5rem;
+        }
+
+        .breadcrumb li a {
+            color: var(--light);
+            text-decoration: none;
+        }
+
+        .breadcrumb li:not(:last-child)::after {
+            content: '>';
+            margin-left: 1rem;
+            color: var(--light);
+        }
+
+        .breadcrumb li:last-child {
+            color: var(--secondary);
+        }
+
+        /* Services Section */
+        .services-section {
+            padding: 5rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: var(--primary);
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--secondary);
+        }
+
+        .section-title p {
+            max-width: 700px;
+            margin: 1rem auto 0;
+            color: #666;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .service-icon {
+            height: 200px;
+            background-color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-icon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(52, 152, 219, 0.8), rgba(41, 128, 185, 0.8));
+            opacity: 0.9;
+        }
+
+        .service-icon i {
+            position: relative;
+            z-index: 1;
+        }
+
+        .service-info {
+            padding: 2rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service-info h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .service-info p {
+            color: #666;
+            margin-bottom: 1.5rem;
+            flex: 1;
+        }
+
+        .service-features {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-features li {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .service-features li i {
+            color: var(--secondary);
+            margin-right: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .service-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+
+        .price {
+            font-weight: bold;
+            color: var(--accent);
+            font-size: 1.5rem;
+        }
+
+        .price.free {
+            color: var(--success);
+        }
+
+        /* Pricing Table */
+        .pricing-section {
+            background-color: var(--light);
+            padding: 5rem 0;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: transform 0.3s;
+            position: relative;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .pricing-card.popular::before {
+            content: 'Most Popular';
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--accent);
+            color: white;
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            font-weight: bold;
+            border-radius: 0 0 0 10px;
+        }
+
+        .pricing-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 2rem;
+        }
+
+        .pricing-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .pricing-period {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        .pricing-features {
+            padding: 2rem;
+            list-style: none;
+        }
+
+        .pricing-features li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pricing-features li i {
+            margin-right: 0.5rem;
+            color: var(--success);
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        .pricing-features li.unavailable {
+            color: #999;
+        }
+
+        .pricing-features li.unavailable i {
+            color: #ccc;
+        }
+
+        .pricing-footer {
+            padding: 0 2rem 2rem;
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            padding: 5rem 0;
+        }
+
+        .steps-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            position: relative;
+        }
+
+        .steps-container::before {
+            content: '';
+            position: absolute;
+            top: 60px;
+            left: 10%;
+            right: 10%;
+            height: 3px;
+            background-color: var(--secondary);
+            z-index: 1;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+            padding: 0 1rem;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background-color: var(--secondary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 1.5rem;
+            border: 4px solid white;
+            box-shadow: 0 0 0 3px var(--secondary);
+        }
+
+        .step h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .step p {
+            color: #666;
+        }
+
+        /* Testimonials */
+        .testimonials-section {
+            background-color: var(--light);
+            padding: 5rem 0;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .testimonial-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-size: 4rem;
+            color: var(--light);
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+
+        .testimonial-text {
+            margin-bottom: 1.5rem;
+            font-style: italic;
+            color: #555;
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #ddd;
+            margin-right: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #777;
+            background: linear-gradient(45deg, var(--secondary), var(--primary));
+            color: white;
+            font-weight: bold;
+        }
+
+        .author-info h4 {
+            margin-bottom: 0.2rem;
+            color: var(--primary);
+        }
+
+        .author-info p {
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.9)), url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            font-size: 1.1rem;
+        }
+
+        .btn-large {
+            padding: 0.8rem 2rem;
+            font-size: 1.1rem;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 5rem 0;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 1rem;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            background: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .faq-question:hover {
+            background: #f9f9f9;
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            background: white;
+        }
+
+        .faq-answer.active {
+            padding: 1.5rem;
+            max-height: 500px;
+        }
+
+        .faq-toggle {
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(180deg);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--secondary);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-column ul li a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--secondary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: background-color 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--secondary);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .services-grid, .pricing-grid, .testimonials-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+            
+            .steps-container {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            
+            .steps-container::before {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-wrap: wrap;
+            }
+            
+            nav {
+                width: 100%;
+                order: 3;
+                margin-top: 1rem;
+                display: none;
+            }
+            
+            nav.active {
+                display: block;
+            }
+            
+            nav ul {
+                flex-direction: column;
+            }
+            
+            nav ul li {
+                margin: 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            nav ul li a {
+                display: block;
+                padding: 0.8rem 0;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+            
+            .auth-buttons {
+                margin-left: auto;
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .cta-section h2 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .logo h1 {
+                font-size: 1.5rem;
+            }
+            
+            .service-icon {
+                height: 150px;
+                font-size: 3rem;
+            }
+            
+            .pricing-price {
+                font-size: 2rem;
+            }
+            
+            .step-number {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-book-open"></i>
+                    <h1>Book<span>Nook</span></h1>
+                </div>
+                
+                <div class="mobile-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+                
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="service.html" class="active">Services</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="order.html">Order</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="auth-buttons">
+                    <a href="login.html" class="btn btn-outline">Login</a>
+                    <a href="register.html" class="btn btn-primary">Register</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Our Services</h1>
+            <ul class="breadcrumb">
+                <li><a href="index.html">Home</a></li>
+                <li>Services</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>What We Offer</h2>
+                <p>Discover our comprehensive range of library services designed to meet all your reading and literary needs</p>
+            </div>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="service-info">
+                        <h3>Book Lending</h3>
+                        <p>Access our extensive collection of 50,000+ books across all genres. Borrow physical books or enjoy our growing digital collection with flexible loan periods.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> 50,000+ titles available</li>
+                            <li><i class="fas fa-check"></i> 3-week loan period</li>
+                            <li><i class="fas fa-check"></i> Online renewal option</li>
+                            <li><i class="fas fa-check"></i> Reserve popular titles</li>
+                            <li><i class="fas fa-check"></i> New arrivals weekly</li>
+                        </ul>
+                        <div class="service-price">
+                            <span class="price free">Free for Members</span>
+                            <a href="register.html" class="btn btn-primary">Join Now</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <div class="service-info">
+                        <h3>Digital Resources</h3>
+                        <p>Access e-books, audiobooks, academic journals, and research databases from anywhere with your library card. Perfect for remote learning and research.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> 20,000+ e-books</li>
+                            <li><i class="fas fa-check"></i> 5,000+ audiobooks</li>
+                            <li><i class="fas fa-check"></i> Academic databases</li>
+                            <li><i class="fas fa-check"></i> Mobile app access</li>
+                            <li><i class="fas fa-check"></i> 24/7 availability</li>
+                        </ul>
+                        <div class="service-price">
+                            <span class="price free">Included with Membership</span>
+                            <a href="register.html" class="btn btn-primary">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="service-info">
+                        <h3>Book Clubs</h3>
+                        <p>Join one of our themed book clubs and engage in lively discussions with fellow literature enthusiasts. Meet authors and discover new perspectives.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> 10+ specialized clubs</li>
+                            <li><i class="fas fa-check"></i> Monthly meetings</li>
+                            <li><i class="fas fa-check"></i> Author Q&A sessions</li>
+                            <li><i class="fas fa-check"></i> Virtual participation option</li>
+                            <li><i class="fas fa-check"></i> Curated reading lists</li>
+                        </ul>
+                        <div class="service-price">
+                            <span class="price">$5/month</span>
+                            <a href="register.html" class="btn btn-primary">Join Club</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-child"></i>
+                    </div>
+                    <div class="service-info">
+                        <h3>Children's Programs</h3>
+                        <p>Engaging literacy programs and activities designed to foster a love of reading in children of all ages. From storytime to summer reading challenges.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Storytime sessions</li>
+                            <li><i class="fas fa-check"></i> Summer reading challenges</li>
+                            <li><i class="fas fa-check"></i> Educational workshops</li>
+                            <li><i class="fas fa-check"></i> Parent-child book clubs</li>
+                            <li><i class="fas fa-check"></i> Reading readiness programs</li>
+                        </ul>
+                        <div class="service-price">
+                            <span class="price free">Most Programs Free</span>
+                            <a href="register.html" class="btn btn-primary">View Schedule</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="service-info">
+                        <h3>Research Assistance</h3>
+                        <p>Expert help with research projects, academic papers, and information literacy from our trained librarians. One-on-one consultations available.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> One-on-one consultations</li>
+                            <li><i class="fas fa-check"></i> Citation guidance</li>
+                            <li><i class="fas fa-check"></i> Database training</li>
+                            <li><i class="fas fa-check"></i> Interlibrary loans</li>
+                            <li><i class="fas fa-check"></i> Research strategy development</li>
+                        </ul>
+                        <div class="service-price">
+                            <span class="price free">Free for Members</span>
+                            <a href="contact.html" class="btn btn-primary">Schedule Session</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-shipping-fast"></i>
+                    </div>
+                    <div class="service-info">
+                        <h3>Home Delivery</h3>
+                        <p>Can't visit us in person? We'll deliver books directly to your home, perfect for seniors and those with mobility issues. Customized selections available.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Weekly delivery routes</li>
+                            <li><i class="fas fa-check"></i> No contact delivery option</li>
+                            <li><i class="fas fa-check"></i> Customized book selections</li>
+                            <li><i class="fas fa-check"></i> Free pickup of returns</li>
+                            <li><i class="fas fa-check"></i> Special requests accommodated</li>
+                        </ul>
+                        <div class="service-price">
+                            <span class="price">$10/month</span>
+                            <a href="order.html" class="btn btn-primary">Sign Up</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+        <div class="container">
+            <div class="section-title">
+                <h2>How It Works</h2>
+                <p>Getting started with BookNook Library services is simple and straightforward</p>
+            </div>
+            
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Sign Up</h3>
+                    <p>Create your free account online or visit us in person to get your library card</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Choose Services</h3>
+                    <p>Select from our range of services that match your reading preferences and needs</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Access Resources</h3>
+                    <p>Start borrowing books, joining clubs, and using our digital resources immediately</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Enjoy Reading</h3>
+                    <p>Discover new books, connect with fellow readers, and enhance your reading experience</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Membership Plans</h2>
+                <p>Choose the membership plan that works best for your reading needs and budget</p>
+            </div>
+            
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Basic</h3>
+                        <div class="pricing-price">$0<span class="pricing-period">/month</span></div>
+                        <p>Perfect for occasional readers</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> 2 books at a time</li>
+                        <li><i class="fas fa-check"></i> 3-week loan period</li>
+                        <li><i class="fas fa-check"></i> Access to physical collection</li>
+                        <li><i class="fas fa-check"></i> Basic research assistance</li>
+                        <li><i class="fas fa-check"></i> Community events</li>
+                        <li class="unavailable"><i class="fas fa-times"></i> No digital resources</li>
+                        <li class="unavailable"><i class="fas fa-times"></i> No book clubs</li>
+                    </ul>
+                    <div class="pricing-footer">
+                        <a href="register.html" class="btn btn-outline" style="color: var(--primary); border-color: var(--primary);">Get Started</a>
+                    </div>
+                </div>
+                
+                <div class="pricing-card popular">
+                    <div class="pricing-header">
+                        <h3>Standard</h3>
+                        <div class="pricing-price">$15<span class="pricing-period">/month</span></div>
+                        <p>Our most popular plan</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> 5 books at a time</li>
+                        <li><i class="fas fa-check"></i> 4-week loan period</li>
+                        <li><i class="fas fa-check"></i> Access to physical collection</li>
+                        <li><i class="fas fa-check"></i> Full digital resources</li>
+                        <li><i class="fas fa-check"></i> Priority research assistance</li>
+                        <li><i class="fas fa-check"></i> 1 book club included</li>
+                        <li class="unavailable"><i class="fas fa-times"></i> No home delivery</li>
+                    </ul>
+                    <div class="pricing-footer">
+                        <a href="register.html" class="btn btn-primary">Get Started</a>
+                    </div>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Premium</h3>
+                        <div class="pricing-price">$25<span class="pricing-period">/month</span></div>
+                        <p>For avid readers and researchers</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> 10 books at a time</li>
+                        <li><i class="fas fa-check"></i> 6-week loan period</li>
+                        <li><i class="fas fa-check"></i> Access to physical collection</li>
+                        <li><i class="fas fa-check"></i> Full digital resources</li>
+                        <li><i class="fas fa-check"></i> Unlimited research assistance</li>
+                        <li><i class="fas fa-check"></i> All book clubs included</li>
+                        <li><i class="fas fa-check"></i> Home delivery option</li>
+                    </ul>
+                    <div class="pricing-footer">
+                        <a href="register.html" class="btn btn-outline" style="color: var(--primary); border-color: var(--primary);">Get Started</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>What Our Members Say</h2>
+                <p>Hear from our satisfied members about their experience with BookNook services</p>
+            </div>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        The research assistance service completely transformed my graduate thesis. The librarians helped me access databases I didn't even know existed and provided invaluable guidance on my research methodology.
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">SJ</div>
+                        <div class="author-info">
+                            <h4>Muhammad Talal Ejaz</h4>
+                            <p>Graduate Student</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        As a senior with limited mobility, the home delivery service has been a blessing. I look forward to my weekly book delivery like a child on Christmas morning! The staff always selects books that match my interests perfectly.
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">RC</div>
+                        <div class="author-info">
+                            <h4>Robert Chen</h4>
+                            <p>Retired Teacher</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        The mystery book club introduced me to authors I would have never discovered on my own. The discussions are always lively and insightful, and I've made wonderful friends who share my passion for reading.
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">MG</div>
+                        <div class="author-info">
+                            <h4>Maria Garcia</h4>
+                            <p>Book Club Member</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Frequently Asked Questions</h2>
+                <p>Find answers to common questions about our services and membership</p>
+            </div>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        How do I get a library card?
+                        <i class="fas fa-chevron-down faq-toggle"></i>
+                    </div>
+                    <div class="faq-answer">
+                        You can get a library card by visiting any of our branches with a valid ID and proof of address. Alternatively, you can register online through our website and your digital card will be activated immediately, with a physical card mailed to you within 5-7 business days.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        How many books can I borrow at once?
+                        <i class="fas fa-chevron-down faq-toggle"></i>
+                    </div>
+                    <div class="faq-answer">
+                        The number of books you can borrow depends on your membership level. Basic members can borrow 2 books, Standard members can borrow 5 books, and Premium members can borrow up to 10 books at a time. There are no limits on e-books and audiobooks for Standard and Premium members.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        What is your book return policy?
+                        <i class="fas fa-chevron-down faq-toggle"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Books can be returned to any of our branches during opening hours, or through our after-hours drop boxes. The standard loan period is 3 weeks, but this can be extended to 4 or 6 weeks for Standard and Premium members respectively. You can renew books online up to 2 times if there are no holds on them.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Do you have books in languages other than English?
+                        <i class="fas fa-chevron-down faq-toggle"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Yes, we have a growing collection of books in Spanish, French, Chinese, Arabic, and several other languages. Our digital collection also includes books in multiple languages. If you're looking for a specific title in another language, our librarians can help you locate it through interlibrary loan.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Can I access digital resources from home?
+                        <i class="fas fa-chevron-down faq-toggle"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Absolutely! Once you have a library card, you can access our entire digital collection from anywhere with an internet connection. This includes e-books, audiobooks, research databases, and online learning resources. Simply log in to your account on our website or through our mobile app.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Explore Our Services?</h2>
+            <p>Join thousands of satisfied readers who have discovered the joy of BookNook Library. Sign up today and get your first month of Premium membership free!</p>
+            <a href="register.html" class="btn btn-primary btn-large">Become a Member</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>The Digital Book Shop</h3>
+                    <p>Your literary haven since 2010. We're dedicated to bringing the joy of reading to book lovers everywhere.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-goodreads"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="service.html">Services</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="order.html">Order Books</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Customer Service</h3>
+                    <ul>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Shipping Policy</a></li>
+                        <li><a href="#">Returns & Refunds</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Book Street, Literary City</li>
+                        <li><i class="fas fa-phone"></i> (123) 456-7890</li>
+                        <li><i class="fas fa-envelope"></i> info@booknook.com</li>
+                        <li><i class="fas fa-clock"></i> Mon-Sat: 9AM-6PM</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 Muhammad Talal Kaimkhani . All rights reserved to Him.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu').addEventListener('click', function() {
+            document.querySelector('nav').classList.toggle('active');
+        });
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const answer = item.querySelector('.faq-answer');
+                
+                // Close all other items
+                document.querySelectorAll('.faq-item').forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                        otherItem.querySelector('.faq-answer').classList.remove('active');
+                    }
+                });
+                
+                // Toggle current item
+                item.classList.toggle('active');
+                answer.classList.toggle('active');
+            });
+        });
+
+        // Add some interactive elements to service cards
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Animate step numbers on scroll
+        function animateSteps() {
+            const steps = document.querySelectorAll('.step-number');
+            steps.forEach(step => {
+                const position = step.getBoundingClientRect();
+                
+                // If step is in viewport
+                if (position.top < window.innerHeight && position.bottom >= 0) {
+                    step.style.animation = 'pulse 2s infinite';
+                }
+            });
+        }
+
+        // Add pulse animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.1); }
+                100% { transform: scale(1); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Check steps on scroll
+        window.addEventListener('scroll', animateSteps);
+        // Initial check
+        animateSteps();
+    </script>
+</body>
+</html>
